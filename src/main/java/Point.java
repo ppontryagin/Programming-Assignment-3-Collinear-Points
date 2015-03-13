@@ -11,16 +11,34 @@
  *************************************************************************/
 
 import java.util.Comparator;
-
 import edu.princeton.cs.introcs.StdDraw;
 
 public class Point implements Comparable<Point> {
 
     // compare points by slope
-    public final Comparator<Point> SLOPE_ORDER = null;       // YOUR DEFINITION HERE
+    public final Comparator<Point> SLOPE_ORDER = new SlopeComparator(); // YOUR DEFINITION HERE
 
-    private final int x;                              // x coordinate
-    private final int y;                              // y coordinate
+    private final int x; // x coordinate
+    private final int y; // y coordinate
+    
+    private class SlopeComparator implements Comparator<Point> {
+        public int compare(Point p1, Point p2) {
+//            double slope1 = slopeTo(p1);
+//            double slope2 = slopeTo(p2);
+//     
+//            if (slope1 < slope2) {
+//                return -1;
+//            }
+//            else if (slope1 > slope2) {
+//                return 1;
+//            }
+//            else {
+//                return 0;
+//            }         
+            
+            return p1.compareTo(p2);            
+        }        
+    }
 
     // create the point (x, y)
     public Point(int x, int y) {
@@ -43,26 +61,36 @@ public class Point implements Comparable<Point> {
 
     // slope between this point and that point
     public double slopeTo(Point that) {
-        
-        //check the same node
-        if ((Double.compare(that.x, this.x) == 0) && (Double.compare(that.y, this.y) == 0)) {
+
+        // check the same node
+        if ((that.x == this.x) && (that.y == this.y)) {
             return Double.NEGATIVE_INFINITY;
         }
-        
-        //check vertical
-        if (Double.compare(that.x, this.x) == 0) {
+
+        // check vertical
+        if (that.x == this.x) {
             return Double.POSITIVE_INFINITY;
         }
-  
-        return (that.y - this.y) / (that.x - this.x);
+
+        // check horizontal
+        if (that.y == this.y) {
+            return +0D;
+        }
+
+        return (double) (that.y - this.y) / (that.x - this.x);
     }
 
     // is this point lexicographically smaller than that one?
     // comparing y-coordinates and breaking ties by x-coordinates
     public int compareTo(Point that) {
-        
-        return x;
-        /* YOUR CODE HERE */
+
+        if ((that.y > this.y) || ((that.y == this.y) && (that.x > this.x))) {
+            return -1;
+        } else if ((that.y == this.y) && (that.x == this.x)) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     // return string representation of this point
