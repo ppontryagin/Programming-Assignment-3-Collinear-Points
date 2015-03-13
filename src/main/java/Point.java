@@ -11,7 +11,6 @@
  *************************************************************************/
 
 import java.util.Comparator;
-import edu.princeton.cs.introcs.StdDraw;
 
 public class Point implements Comparable<Point> {
 

@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.princeton.cs.introcs.StdDraw;
-
 public class Brute {
     public static void main(String[] args) {
 
@@ -12,7 +10,7 @@ public class Brute {
         StdDraw.setYscale(0, 32768);
         StdDraw.show(0);
         StdDraw.setPenRadius(0.01); // make the points a bit larger
-        
+
         List<Point> points = new ArrayList<Point>();
 
         // read in the input
@@ -26,11 +24,11 @@ public class Brute {
             points.add(p);
             p.draw();
         }
-        
+
         int n = points.size();
-        
+
         List<Point> lines = new ArrayList<Point>(4);
-        
+
 //        findLines();
         for (int i = 0; i < n - 3; i++) {
             Point pI = points.get(i);
@@ -38,24 +36,28 @@ public class Brute {
                 Point pJ = points.get(j);
                 for (int k = j + 1; k < n - 1; k++) {
                     Point pK = points.get(k);
+                    if (pI.slopeTo(pJ) != pJ.slopeTo(pK)) {
+                        continue;
+                    }
                     for (int l = k + 1; l < n; l++) {
                         Point pL = points.get(l);
-                        if (pI.slopeTo(pJ) == pJ.slopeTo(pK) && pJ.slopeTo(pK) == pK.slopeTo(pL)) {
-
-                            lines.add(pI);
-                            lines.add(pJ);
-                            lines.add(pK);
-                            lines.add(pL);
-                            
-                            Collections.sort(lines);
-                            
-                            lines.get(0).drawTo(lines.get(3));
-                            lines.clear();
+                        if (pJ.slopeTo(pK) != pK.slopeTo(pL)) {
+                            continue;
                         }
+
+                        lines.add(pI);
+                        lines.add(pJ);
+                        lines.add(pK);
+                        lines.add(pL);
+
+                        Collections.sort(lines);
+
+                        lines.get(0).drawTo(lines.get(3));
+                        lines.clear();
                     }
                 }
             }
-        }        
+        }
 
         // display to screen all at once
         StdDraw.show(0);
@@ -63,13 +65,5 @@ public class Brute {
         // reset the pen radius
         StdDraw.setPenRadius();
 
-    }
-
-    private static void drawLines() {
-        
-    }
-
-    private static void findLines() {
-        
     }
 }
