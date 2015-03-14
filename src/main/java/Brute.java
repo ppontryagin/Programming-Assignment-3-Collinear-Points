@@ -52,6 +52,9 @@ public class Brute {
 
                         Collections.sort(lines);
 
+                        StdOut.println(lines.get(0) + " -> " + lines.get(1) + " -> "
+                                + lines.get(2) + " -> " + lines.get(3));
+
                         lines.get(0).drawTo(lines.get(3));
                         lines.clear();
                     }

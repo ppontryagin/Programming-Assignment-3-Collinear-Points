@@ -71,19 +71,19 @@ public class PointTest {
         Point p1 = new Point(-1, 0); 
         Point p2 = new Point(-1, 1); 
         
-        assertEquals(-1, p0.SLOPE_ORDER.compare(p1, p2));
+        assertEquals(1, p0.SLOPE_ORDER.compare(p1, p2));
         
         // p1 > p2
         p1 = new Point(-1, 1); 
         p2 = new Point(-1, 0); 
         
-        assertEquals(1, p0.SLOPE_ORDER.compare(p1, p2));
+        assertEquals(-1, p0.SLOPE_ORDER.compare(p1, p2));
         
         // p0 < p2 = p1
         p1 = new Point(-1, 1); 
         p2 = new Point(-2, 2); 
         
-        assertEquals(-1, p0.SLOPE_ORDER.compare(p1, p2));
+        assertEquals(0, p0.SLOPE_ORDER.compare(p1, p2));
     }
     
     @Test
@@ -93,7 +93,7 @@ public class PointTest {
         Point p1 = new Point(-1, 0); 
         Point p2 = new Point(-2, 0); 
         
-        assertEquals(1, p0.SLOPE_ORDER.compare(p1, p2));
+        assertEquals(0, p0.SLOPE_ORDER.compare(p1, p2));
     }
     
     @Test
@@ -103,6 +103,6 @@ public class PointTest {
         Point p1 = new Point(0, 1); 
         Point p2 = new Point(0, 2); 
         
-        assertEquals(-1, p0.SLOPE_ORDER.compare(p1, p2));
+        assertEquals(0, p0.SLOPE_ORDER.compare(p1, p2));
     }
 }
