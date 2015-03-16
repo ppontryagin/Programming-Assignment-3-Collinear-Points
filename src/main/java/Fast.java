@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.Arrays;
 
 /**
  * Created by Pavel.Pontryagin on 13.03.2015.
@@ -8,15 +8,13 @@ public class Fast {
 
         setupScreen();
 
-        // read in the input
         String filename = args[0];
         Point[] points = getData(filename);
-//        Set<String> linesSet = new HashSet<String>();
 
         int n = points.length;
         Stack<Point> stack;
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n - 1; i++) {
 
             stack = new Stack<Point>();
 
