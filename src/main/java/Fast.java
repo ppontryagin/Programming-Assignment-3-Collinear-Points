@@ -1,6 +1,4 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Pavel.Pontryagin on 13.03.2015.
@@ -13,40 +11,40 @@ public class Fast {
         // read in the input
         String filename = args[0];
         Point[] points = getData(filename);
-        Set<String> linesSet = new HashSet<String>();
+//        Set<String> linesSet = new HashSet<String>();
 
         int n = points.length;
         Stack<Point> stack;
 
-        for (int i = 0; i < n - 3; i++) {
+        for (int i = 0; i < n; i++) {
 
-            double prevSlope = points[i].slopeTo(points[i + 1]);
             stack = new Stack<Point>();
 
-            Arrays.sort(points, i, n);
+            Arrays.sort(points);
 
-            stack.push(points[i]);
+            Arrays.sort(points, points[i].SLOPE_ORDER);
+            stack.push(points[0]);
+            double prevSlope = points[0].slopeTo(points[1]);
+            stack.push(points[1]);
 
-            Arrays.sort(points, i + 1, n, points[i].SLOPE_ORDER);
-
-            for (int j = i + 1; j < n; j++) {
-                double currSlope = points[i].slopeTo(points[j]);
+            for (int j = 2; j < n; j++) {
+                double currSlope = points[0].slopeTo(points[j]);
 
                 if (prevSlope == currSlope) {
                     stack.push(points[j]);
 
                     if (stack.size() > 3 && j == n - 1) {
-                        drawStack(stack, linesSet);
+                        drawStack(stack, points[0]);
                     }
                     continue;
                 }
                 if (prevSlope != currSlope) {
                     if (stack.size() > 3) {
-                        drawStack(stack, linesSet);
+                        drawStack(stack, points[0]);
                     }
                     prevSlope = currSlope;
                     clearStack(stack);
-                    stack.push(points[i]);
+                    stack.push(points[0]);
                     stack.push(points[j]);
                 }
             }
@@ -80,30 +78,31 @@ public class Fast {
         StdDraw.setXscale(0, 32768);
         StdDraw.setYscale(0, 32768);
         StdDraw.show(0);
-        StdDraw.setPenRadius(0.015); // make the points a bit larger
+        StdDraw.setPenRadius(0.001); // make the points a bit larger
     }
 
-    private static void drawStack(Stack<Point> stack, Set linesSet) {
+    private static void drawStack(Stack<Point> stack, Point sortPoint) {
 
-        int stackSize = stack.size();
-
-        Point to = stack.pop();
-        String result = to.toString();
-        Point from = null;
+        Point[] checkLine = new Point[stack.size()];
+        int index = 0;
 
         while (!stack.isEmpty()) {
-            from = stack.pop();
-            result = from + " -> " + result;
+            checkLine[index++] = stack.pop();
+        }
+        Arrays.sort(checkLine);
+
+        String result = checkLine[0].toString();
+
+        for (int i = 1; i < index; i++) {
+            result = result + " -> " + checkLine[i];
         }
 
-        if (stackSize > 4) {
-            linesSet.add(result.substring(result.indexOf(" (") + 1).hashCode());
-            from.drawTo(to);
+//            from.drawTo(to);
+        if (sortPoint == checkLine[0]) {
             StdOut.println(result);
-        } else if (!linesSet.contains(result.hashCode())) {
-            from.drawTo(to);
-            StdOut.println(result);
+            checkLine[0].drawTo(checkLine[index - 1]);
         }
+//        StdOut.println(sortPoint);
     }
 
     private static void clearStack(Stack<Point> stack) {
