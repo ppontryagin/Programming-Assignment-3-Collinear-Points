@@ -12,4 +12,6 @@
 	if and only if the slope (y1 − y0) / (x1 − x0) is less than the slope (y2 − y0) / (x2 − x0). 
 	Treat horizontal, vertical, and degenerate line segments as in the slopeTo() method.
 	
-4. Check horizontal, vertical, and degenerate in Comparator
++ 4. Check horizontal, vertical, and degenerate in Comparator
+
+5. Do not print out sublines

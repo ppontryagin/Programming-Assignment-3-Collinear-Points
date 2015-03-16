@@ -1,28 +1,14 @@
-import java.util.Arrays;
-
 /**
  * Created by Pavel.Pontryagin on 14.03.2015.
  */
 public class SimpleTest {
     public static void main(String[] args) {
-
-        int[] p = new int[10];
-        p[0] = 9;
-        p[1] = 8;
-        p[2] = 7;
-        p[3] = 6;
-        p[4] = 5;
-        p[5] = 4;
-        p[6] = 3;
-        p[7] = 2;
-        p[8] = 1;
-        p[9] = 0;
-
-        Arrays.sort(p, 5, 10);
-
-        for (int i = 0; i < 10; i++) {
-            System.out.println(p[i]);
-        }
-
+        String str = "(4096, 20992) -> (5120, 20992) -> (6144, 20992) -> (7168, 20992) -> (8128, 20992)";
+        String str2 = "(5120, 20992) -> (6144, 20992) -> (7168, 20992) -> (8128, 20992)";
+        System.out.println(str.substring(str.indexOf(" (") + 1));
+        System.out.println(str2);
+        System.out.println("Hash: " + str.substring(str.indexOf(" (" ) + 1).hashCode());
+        System.out.println("Has2: " + str2.hashCode());
     }
+
 }

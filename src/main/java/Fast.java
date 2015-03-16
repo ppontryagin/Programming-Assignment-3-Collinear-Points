@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Pavel.Pontryagin on 13.03.2015.
@@ -11,16 +13,17 @@ public class Fast {
         // read in the input
         String filename = args[0];
         Point[] points = getData(filename);
+        Set<String> linesSet = new HashSet<String>();
 
         int n = points.length;
         Stack<Point> stack;
-        String prevLine = "";
 
-        for (int i = 0; i < n - 2; i++) {
+        for (int i = 0; i < n - 3; i++) {
 
             double prevSlope = points[i].slopeTo(points[i + 1]);
             stack = new Stack<Point>();
-            Arrays.sort(points);
+
+            Arrays.sort(points, i, n);
 
             stack.push(points[i]);
 
@@ -33,13 +36,13 @@ public class Fast {
                     stack.push(points[j]);
 
                     if (stack.size() > 3 && j == n - 1) {
-                        drawStack(stack, prevLine);
+                        drawStack(stack, linesSet);
                     }
                     continue;
                 }
                 if (prevSlope != currSlope) {
                     if (stack.size() > 3) {
-                        drawStack(stack, prevLine);
+                        drawStack(stack, linesSet);
                     }
                     prevSlope = currSlope;
                     clearStack(stack);
@@ -80,7 +83,9 @@ public class Fast {
         StdDraw.setPenRadius(0.015); // make the points a bit larger
     }
 
-    private static void drawStack(Stack<Point> stack, String prevLine) {
+    private static void drawStack(Stack<Point> stack, Set linesSet) {
+
+        int stackSize = stack.size();
 
         Point to = stack.pop();
         String result = to.toString();
@@ -91,10 +96,13 @@ public class Fast {
             result = from + " -> " + result;
         }
 
-        if (!prevLine.contains(result)) {
+        if (stackSize > 4) {
+            linesSet.add(result.substring(result.indexOf(" (") + 1).hashCode());
             from.drawTo(to);
             StdOut.println(result);
-            prevLine = "new String(result)";
+        } else if (!linesSet.contains(result.hashCode())) {
+            from.drawTo(to);
+            StdOut.println(result);
         }
     }
 
